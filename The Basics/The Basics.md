@@ -120,11 +120,11 @@ func makeASandwich() throws {
 }
 
 do {
-try makeASandwich()
-eatASandwich()
+  try makeASandwich()
+  eatASandwich()
 } catch SandwichError.outOfCleanDishes {
-washDishes()
+  washDishes()
 } catch SandwichError.missingIngredients(let ingredients) {
-buyGroceries(ingredients)
+  buyGroceries(ingredients)
 }
 ```  
