@@ -10,17 +10,19 @@ To handle an empty array safely, write the minMax(array:) function with an optio
 
 ```swift
 func minMax(array: [Int]) -> (min: Int, max: Int)? {
-if array.isEmpty { return nil }
-var currentMin = array[0]
-var currentMax = array[0]
-for value in array[1..<array.count] {
-if value < currentMin {
-currentMin = value
-} else if value > currentMax {
-currentMax = value
-}
-}
-return (currentMin, currentMax)
+  if array.isEmpty { return nil }
+  
+  var currentMin = array[0]
+  var currentMax = array[0]
+  
+  for value in array[1..<array.count] {
+    if value < currentMin {
+      currentMin = value
+    } else if value > currentMax {
+      currentMax = value
+    }
+  }
+  return (currentMin, currentMax)
 }
 ```  
 
@@ -29,7 +31,7 @@ You can use optional binding to check whether this version of the minMax(array:)
 
 ```swift
 if let bounds = minMax(array: [8, -6, 2, 109, 3, 71]) {
-print("min is \(bounds.min) and max is \(bounds.max)")
+  print("min is \(bounds.min) and max is \(bounds.max)")
 } // Prints "min is -6 and max is 109"
 ``` 
 
@@ -57,9 +59,9 @@ You write an in-out parameter by placing the inout keyword right before a parame
 
 ```swift
 func swapTwoInts(_ a: inout Int, _ b: inout Int) {
-let temporaryA = a
-a = b
-b = temporaryA
+  let temporaryA = a
+  a = b
+  b = temporaryA
 }
 
 var someInt = 3
