@@ -18,7 +18,7 @@ If you need the integer index of each item as well as its value, use the enumera
 
 ```swift
 for (index, value) in shoppingList.enumerated() {
-print("Item \(index + 1): \(value)")
+  print("Item \(index + 1): \(value)")
 }
 ``` 
 
