@@ -34,16 +34,16 @@ The example below takes an (x, y) point, expressed as a simple tuple of type (In
 ```swift
 let somePoint = (1, 1)
 switch somePoint {
-case (0, 0):
-print("\(somePoint) is at the origin")
-case (_, 0):
-print("\(somePoint) is on the x-axis")
-case (0, _):
-print("\(somePoint) is on the y-axis")
-case (-2...2, -2...2):
-print("\(somePoint) is inside the box")
-default:
-print("\(somePoint) is outside of the box")
+  case (0, 0):
+    print("\(somePoint) is at the origin")
+  case (_, 0):
+    print("\(somePoint) is on the x-axis")
+  case (0, _):
+    print("\(somePoint) is on the y-axis")
+  case (-2...2, -2...2):
+    print("\(somePoint) is inside the box")
+  default:
+    print("\(somePoint) is outside of the box")
 }
 // Prints "(1, 1) is inside the box"
 }
@@ -60,12 +60,12 @@ The example below takes an (x, y) point, expressed as a tuple of type (Int, Int)
 ```swift
 let anotherPoint = (2, 0)
 switch anotherPoint {
-case (let x, 0):
-print("on the x-axis with an x value of \(x)")
-case (0, let y):
-print("on the y-axis with a y value of \(y)")
-case let (x, y):
-print("somewhere else at (\(x), \(y))")
+  case (let x, 0):
+    print("on the x-axis with an x value of \(x)")
+  case (0, let y):
+    print("on the y-axis with a y value of \(y)")
+  case let (x, y):
+    print("somewhere else at (\(x), \(y))")
 }
 // Prints "on the x-axis with an x value of 2"
 ```
@@ -76,12 +76,12 @@ A switch case can use a where clause to check for additional conditions. The exa
 ```swift
 let yetAnotherPoint = (1, -1)
 switch yetAnotherPoint {
-case let (x, y) where x == y:
-print("(\(x), \(y)) is on the line x == y")
-case let (x, y) where x == -y:
-print("(\(x), \(y)) is on the line x == -y")
-case let (x, y):
-print("(\(x), \(y)) is just some arbitrary point")
+  case let (x, y) where x == y:
+    print("(\(x), \(y)) is on the line x == y")
+  case let (x, y) where x == -y:
+    print("(\(x), \(y)) is on the line x == -y")
+  case let (x, y):
+    print("(\(x), \(y)) is just some arbitrary point")
 }
 // Prints "(1, -1) is on the line x == -y"
 ```
