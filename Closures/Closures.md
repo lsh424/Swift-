@@ -21,13 +21,13 @@ The code above creates a dictionary of mappings between the integer digits and E
 
 ```swift
 let strings = numbers.map { (number) -> String in
-var number = number
-var output = ""
-repeat {
-output = digitNames[number % 10]! + output
-number /= 10
-} while number > 0
-return output
+  var number = number
+  var output = ""
+  repeat {
+    output = digitNames[number % 10]! + output
+    number /= 10
+  } while number > 0
+  return output
 }
 // strings is inferred to be of type [String]
 // its value is ["OneSix", "FiveEight", "FiveOneZero"]
@@ -56,13 +56,13 @@ Here’s an example of a function called makeIncrementer, which contains a neste
 
 ```swift
 func makeIncrementer(forIncrement amount: Int) -> () -> Int {
-var runningTotal = 0
+  var runningTotal = 0
 
-func incrementer() -> Int {
-runningTotal += amount
-return runningTotal
-}
-return incrementer
+  func incrementer() -> Int {
+    runningTotal += amount
+    return runningTotal
+  }
+  return incrementer
 }
 ``` 
 
@@ -137,7 +137,7 @@ One way that a closure can escape is by being stored in a variable that’s defi
 ```swift
 var completionHandlers = [() -> Void]()
 func someFunctionWithEscapingClosure(completionHandler: @escaping () -> Void) {
-completionHandlers.append(completionHandler)
+  completionHandlers.append(completionHandler)
 }
 ```
 
@@ -152,15 +152,15 @@ Normally, a closure captures variables implicitly by using them in the body of t
 
 ```swift
 func someFunctionWithNonescapingClosure(closure: () -> Void) {
-closure()
+  closure()
 }
 
 class SomeClass {
-var x = 10
-func doSomething() {
-someFunctionWithEscapingClosure { self.x = 100 }
-someFunctionWithNonescapingClosure { x = 200 }
-}
+  var x = 10
+  func doSomething() {
+    someFunctionWithEscapingClosure { self.x = 100 }
+    someFunctionWithNonescapingClosure { x = 200 }
+  }
 }
 
 let instance = SomeClass()
@@ -178,11 +178,11 @@ Here’s a version of doSomething() that captures self by including it in the cl
 
 ```swift
 class SomeOtherClass {
-var x = 10
-func doSomething() {
-someFunctionWithEscapingClosure { [self] in x = 100 }
-someFunctionWithNonescapingClosure { x = 200 }
-}
+  var x = 10
+  func doSomething() {
+    someFunctionWithEscapingClosure { [self] in x = 100 }
+    someFunctionWithNonescapingClosure { x = 200 }
+  }
 }
 ```
 
@@ -191,10 +191,10 @@ If self is an instance of a structure or an enumeration, you can always refer to
 
 ```swift
 struct SomeStruct {
-var x = 10
-mutating func doSomething() {
-someFunctionWithNonescapingClosure { x = 200 }  // Ok
-someFunctionWithEscapingClosure { x = 100 }     // Error
-}
+  var x = 10
+  mutating func doSomething() {
+    someFunctionWithNonescapingClosure { x = 200 }  // Ok
+    someFunctionWithEscapingClosure { x = 100 }     // Error
+  }
 }
 ```
