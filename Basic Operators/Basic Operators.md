@@ -12,10 +12,11 @@ Here’s an example, which calculates the height for a table row. The row height
 let contentHeight = 40
 let hasHeader = true
 let rowHeight: Int
+
 if hasHeader {
-rowHeight = contentHeight + 50
+ rowHeight = contentHeight + 50
 } else {
-rowHeight = contentHeight + 20
+ rowHeight = contentHeight + 20
 }
 // rowHeight is equal to 90
 ```  
