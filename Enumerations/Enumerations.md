@@ -85,8 +85,7 @@ The examples in the previous section show how the cases of an enumeration are a 
 For example, suppose an inventory tracking system needs to track products by two different types of barcode. Some products are labeled with 1D barcodes in UPC format, which uses the numbers 0 to 9. Each barcode has a number system digit, followed by five manufacturer code digits and five product code digits. These are followed by a check digit to verify that the code has been scanned correctly:
 > 예를 들어 재고 추적 시스템에서 두 가지 유형의 바코드로 제품을 추적해야한다고 가정해 봅시다. 일부 제품에는 숫자 0 ~ 9를 사용하는 UPC 형식의 1D 바코드 라벨이 부착되어 있습니다. 각 바코드에는 숫자 체계 숫자가 있고 그 뒤에 5 개의 제조업체 코드 숫자와 5 개의 제품 코드 숫자가 있습니다. 다음에는 코드가 올바르게 스캔되었는지 확인하기위한 검사 숫자가 있습니다.
 
-사진
-사진
+<img src="UPC.png" width="300"> <img src="QR.png" width="300">
 
 ```swift
 enum Barcode {
