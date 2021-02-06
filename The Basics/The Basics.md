@@ -106,10 +106,10 @@ Swift는 catch 절에서 처리 할 때까지 현재 범위에서 오류를 자�
 
 ```swift
 do {
-try canThrowAnError()
-// no error was thrown
+  try canThrowAnError()
+  // no error was thrown
 } catch {
-// an error was thrown
+  // an error was thrown
 }
 ```  
 
