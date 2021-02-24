@@ -49,18 +49,18 @@ The example below uses a lazy stored property to avoid unnecessary initializatio
 
 ```swift
 class DataImporter {
-/*
-DataImporter is a class to import data from an external file.
-The class is assumed to take a nontrivial amount of time to initialize.
-*/
-var filename = "data.txt"
-// the DataImporter class would provide data importing functionality here
+    /*
+    DataImporter is a class to import data from an external file.
+    The class is assumed to take a nontrivial amount of time to initialize.
+    */
+    var filename = "data.txt"
+    // the DataImporter class would provide data importing functionality here
 }
 
 class DataManager {
-lazy var importer = DataImporter()
-var data = [String]()
-// the DataManager class would provide data management functionality here
+    lazy var importer = DataImporter()
+    var data = [String]()
+    // the DataManager class would provide data management functionality here
 }
 
 let manager = DataManager()
@@ -94,31 +94,30 @@ In addition to stored properties, classes, structures, and enumerations can defi
 
 ```swift
 struct Point {
-var x = 0.0, y = 0.0
+    var x = 0.0, y = 0.0
 }
 
 struct Size {
-var width = 0.0, height = 0.0
+    var width = 0.0, height = 0.0
 }
 
 struct Rect {
-var origin = Point()
-var size = Size()
-var center: Point {
-get {
-let centerX = origin.x + (size.width / 2)
-let centerY = origin.y + (size.height / 2)
-return Point(x: centerX, y: centerY)
-}
-set(newCenter) {
-origin.x = newCenter.x - (size.width / 2)
-origin.y = newCenter.y - (size.height / 2)
-}
-}
+    var origin = Point()
+    var size = Size()
+    var center: Point {
+        get {
+        let centerX = origin.x + (size.width / 2)
+        let centerY = origin.y + (size.height / 2)
+        return Point(x: centerX, y: centerY)
+        }
+        set(newCenter) {
+            origin.x = newCenter.x - (size.width / 2)
+            origin.y = newCenter.y - (size.height / 2)
+        }
+    }
 }
 
-var square = Rect(origin: Point(x: 0.0, y: 0.0),
-size: Size(width: 10.0, height: 10.0))
+var square = Rect(origin: Point(x: 0.0, y: 0.0), size: Size(width: 10.0, height: 10.0))
 let initialSquareCenter = square.center
 square.center = Point(x: 15.0, y: 15.0)
 print("square.origin is now at (\(square.origin.x), \(square.origin.y))")
