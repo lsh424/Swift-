@@ -604,3 +604,23 @@ if anonymousCreature == nil {
 }
 // Prints "The anonymous creature couldn't be initialized"
 ``` 
+
+## Required Initializers
+
+Write the required modifier before the definition of a class initializer to indicate that every subclass of the class must implement that initializer:
+> 클래스 이니셜 라이저 정의 앞에 required를 작성하여 클래스의 모든 하위 클래스가 해당 이니셜라이저를 구현해야 함을 나타냅니다.
+
+
+```swift
+class SomeClass {
+    required init() {
+        // initializer implementation goes here
+    }
+}
+
+class SomeSubclass: SomeClass {
+    required init() {
+        // subclass implementation of the required initializer goes here
+    }
+}
+``` 
