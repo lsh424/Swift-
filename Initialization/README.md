@@ -405,4 +405,202 @@ print("Hoverboard: \(hoverboard.description)")
 
 ## Automatic Initializer Inheritance
 
-.... 추가 작성 예정 왜케 많은거야
+As mentioned above, subclasses don’t inherit their superclass initializers by default. However, superclass initializers are automatically inherited if certain conditions are met. In practice, this means that you don’t need to write initializer overrides in many common scenarios, and can inherit your superclass initializers with minimal effort whenever it’s safe to do so.
+> 위에서 언급했듯이 하위 클래스는 기본적으로 수퍼클래스 이니셜라이저를 상속하지 않습니다. 그러나 특정 조건이 충족되면 수퍼클래스 이니셜라이저가 자동으로 상속됩니다. 실제로 이것은 많은 일반적인 시나리오에서 이니셜라이저 오버라이드를 작성할 필요가 없으며 안전 할 때마다 최소한의 노력으로 슈퍼클래스 이니셜라이저를 상속 할 수 있음을 의미합니다.
+
+Assuming that you provide default values for any new properties you introduce in a subclass, the following two rules apply:
+> 하위 클래스에 도입 한 새 프로퍼티에 대한 기본값을 제공한다고 가정하면 다음 두 가지 규칙이 적용됩니다.
+
+Rule 1
+If your subclass doesn’t define any designated initializers, it automatically inherits all of its superclass designated initializers.
+> 하위 클래스가 designated initializer를 정의하지 않으면 슈퍼 클래스의 designated initializer를 모두 자동으로 상속합니다.
+
+Rule 2
+If your subclass provides an implementation of all of its superclass designated initializers—either by inheriting them as per rule 1, or by providing a custom implementation as part of its definition—then it automatically inherits all of the superclass convenience initializers.
+> 서브 클래스가 규칙 1에 따라 상속하거나 정의의 일부로 사용자 정의 구현을 제공하여 모든 수퍼클래스 designated initializer의 구현을 제공하면 모든 슈퍼 클래스 convenience initializer를 자동으로 상속합니다.
+
+These rules apply even if your subclass adds further convenience initializers.
+> 이러한 규칙은 하위 클래스가 convenience initializer를 추가하는 경우에도 적용됩니다.
+
+## Designated and Convenience Initializers in Action
+
+The following example shows designated initializers, convenience initializers, and automatic initializer inheritance in action. This example defines a hierarchy of three classes called Food, RecipeIngredient, and ShoppingListItem, and demonstrates how their initializers interact.
+> 다음 예제는 designated initializer, convenience initializer 및 automatic initializer 상속이 작동하는 모습을 보여줍니다. 이 예제는 Food, RecipeIngredient 및 ShoppingListItem이라는 세 가지 클래스의 계층을 정의하고 이니셜라이저가 상호 작용하는 방식을 보여줍니다.
+
+The base class in the hierarchy is called Food, which is a simple class to encapsulate the name of a foodstuff. The Food class introduces a single String property called name and provides two initializers for creating Food instances:
+> 계층 구조의 기본 클래스는 Food라고하며 이는 식품의 이름을 캡슐화하는 간단한 클래스입니다. Food 클래스는 name이라는 단일 String 프로퍼티를 도입하고 Food 인스턴스를 만들기위한 두 개의 이니셜 라이저를 제공합니다.
+
+```swift
+class Food {
+    var name: String
+    init(name: String) {
+        self.name = name
+    }
+    convenience init() {
+        self.init(name: "[Unnamed]")
+    }
+}
+``` 
+
+The figure below shows the initializer chain for the Food class:
+> 아래 그림은 Food 클래스의 이니셜라이저 체인을 보여줍니다.
+
+그림 추가
+
+```swift
+let namedMeat = Food(name: "Bacon")
+// namedMeat's name is "Bacon"
+
+let mysteryMeat = Food()
+// mysteryMeat's name is "[Unnamed]"
+``` 
+
+The second class in the hierarchy is a subclass of Food called RecipeIngredient. The RecipeIngredient class models an ingredient in a cooking recipe. It introduces an Int property called quantity (in addition to the name property it inherits from Food) and defines two initializers for creating RecipeIngredient instances:
+> 계층 구조의 두 번째 클래스는 RecipeIngredient라는 Food의 하위 클래스입니다. RecipeIngredient 클래스는 요리 레시피의 재료를 모델링합니다. 이는 Quantity라는 Int 속성 (Food에서 상속되는 이름 속성에 추가로)을 도입하고 RecipeIngredient 인스턴스를 만들기위한 두 개의 이니셜 라이저를 정의합니다.
+
+```swift
+class RecipeIngredient: Food {
+    var quantity: Int
+    init(name: String, quantity: Int) {
+        self.quantity = quantity
+        super.init(name: name)
+    }
+    override convenience init(name: String) {
+        self.init(name: name, quantity: 1)
+    }
+}
+``` 
+
+The figure below shows the initializer chain for the RecipeIngredient class:
+> 아래 그림은 RecipeIngredient 클래스의 이니셜 라이저 체인을 보여줍니다.
+
+그림 추가
+
+The RecipeIngredient class has a single designated initializer, init(name: String, quantity: Int), which can be used to populate all of the properties of a new RecipeIngredient instance. This initializer starts by assigning the passed quantity argument to the quantity property, which is the only new property introduced by RecipeIngredient. After doing so, the initializer delegates up to the init(name: String) initializer of the Food class. This process satisfies safety check 1 from Two-Phase Initialization above.
+> RecipeIngredient 클래스에는 새로운 RecipeIngredient 인스턴스의 모든 프로퍼티를 채우는 데 사용할 수있는 init(name : String, quantity : Int)라는 designated initializer가 있습니다. 이 이니셜라이저는 전달 된 수량 인수를 수량 프로퍼티에 할당하여 시작합니다.이 속성은 RecipeIngredient에 의해 도입 된 유일한 새 프로퍼티입니다. 이렇게하면 초기화 프로그램은 Food 클래스의 init(name : String) 초기화 프로그램까지 위임합니다. 이 프로세스는 위의 Two-Phase Initialization의 안전 점검 1을 충족합니다.
+
+RecipeIngredient also defines a convenience initializer, init(name: String), which is used to create a RecipeIngredient instance by name alone. This convenience initializer assumes a quantity of 1 for any RecipeIngredient instance that’s created without an explicit quantity. The definition of this convenience initializer makes RecipeIngredient instances quicker and more convenient to create, and avoids code duplication when creating several single-quantity RecipeIngredient instances. This convenience initializer simply delegates across to the class’s designated initializer, passing in a quantity value of 1.
+> RecipeIngredient는 또한 이름만으로 RecipeIngredient 인스턴스를 생성하는 데 사용되는 convenience initializer, init(name : String)을 정의합니다. 이 convenience initializer는 명시 적 수량없이 생성 된 RecipeIngredient 인스턴스에 대해 수량 1을 가정합니다. 이 convenience initializer의 정의는 RecipeIngredient 인스턴스를 더 빠르고 편리하게 만들 수 있도록하며 여러 단일 수량 RecipeIngredient 인스턴스를 만들 때 코드 중복을 방지합니다. 이 convenience initializer는 단순히 수량 값 1을 전달하여 클래스의 designated initializer에 위임합니다.
+
+The init(name: String) convenience initializer provided by RecipeIngredient takes the same parameters as the init(name: String) designated initializer from Food. Because this convenience initializer overrides a designated initializer from its superclass, it must be marked with the override modifier.
+> RecipeIngredient에서 제공하는 init(name : String) convenience initializer는 Food에서 지정한 init(name : String) 이니셜라이저와 동일한 매개 변수를 사용합니다. 이 convenience initializer는 수퍼 클래스의 designated initializer를 재정의하기 때문에 override로 표시해야합니다.
+
+Even though RecipeIngredient provides the init(name: String) initializer as a convenience initializer, RecipeIngredient has nonetheless provided an implementation of all of its superclass’s designated initializers. Therefore, RecipeIngredient automatically inherits all of its superclass’s convenience initializers too.
+> RecipeIngredient는 convenience initializer로 init(name : String) 이니셜라이저를 제공하지만 그럼에도 불구하고 RecipeIngredient는 수퍼 클래스의 designated initializer의 구현을 모두 제공했습니다. 따라서 RecipeIngredient는 수퍼 클래스의 모든 convenience initializer도 자동으로 상속합니다.
+
+In this example, the superclass for RecipeIngredient is Food, which has a single convenience initializer called init(). This initializer is therefore inherited by RecipeIngredient. The inherited version of init() functions in exactly the same way as the Food version, except that it delegates to the RecipeIngredient version of init(name: String) rather than the Food version
+> 이 예제에서 RecipeIngredient의 수퍼 클래스는 Food이며 init()라는 단일 convenience initializer가 있습니다. 따라서 이 이니셜라이저는 RecipeIngredient에 상속됩니다. 상속 된 init() 버전은 Food 버전이 아닌 RecipeIngredient 버전의 init(name : String)에 위임한다는 점을 제외하면 Food 버전과 정확히 동일한 방식으로 작동합니다.
+
+All three of these initializers can be used to create new RecipeIngredient instances:
+> 이 세 가지 이니셜라이저는 모두 새로운 RecipeIngredient 인스턴스를 만드는 데 사용할 수 있습니다.
+
+```swift
+let oneMysteryItem = RecipeIngredient()
+let oneBacon = RecipeIngredient(name: "Bacon")
+let sixEggs = RecipeIngredient(name: "Eggs", quantity: 6)
+``` 
+
+The third and final class in the hierarchy is a subclass of RecipeIngredient called ShoppingListItem. The ShoppingListItem class models a recipe ingredient as it appears in a shopping list.
+> 계층 구조의 세 번째이자 마지막 클래스는 ShoppingListItem이라는 RecipeIngredient의 하위 클래스입니다. ShoppingListItem 클래스는 쇼핑 목록에 표시되는 레시피 성분을 모델링합니다.
+
+Every item in the shopping list starts out as “unpurchased”. To represent this fact, ShoppingListItem introduces a Boolean property called purchased, with a default value of false. ShoppingListItem also adds a computed description property, which provides a textual description of a ShoppingListItem instance:
+> 쇼핑 목록의 모든 항목은 "미 구매"로 시작합니다. 이 사실을 나타 내기 위해 ShoppingListItem은 기본값이 false인 Buyed라는 부울 속성을 도입합니다. ShoppingListItem은 또한 ShoppingListItem 인스턴스의 텍스트 설명을 제공하는 계산 프로퍼티를 추가합니다.
+
+```swift
+class ShoppingListItem: RecipeIngredient {
+    var purchased = false
+    var description: String {
+        var output = "\(quantity) x \(name)"
+        output += purchased ? " ✔" : " ✘"
+        return output
+    }
+}
+``` 
+
+Because it provides a default value for all of the properties it introduces and doesn’t define any initializers itself, ShoppingListItem automatically inherits all of the designated and convenience initializers from its superclass.
+> 소개하는 모든 프로퍼티에 대한 기본값을 제공하고 이니셜라이저 자체를 정의하지 않기 때문에 ShoppingListItem은 수퍼 클래스의 모든  지정된 모든 designated initializer와 convenience initializer를 자동으로 상속합니다.
+
+The figure below shows the overall initializer chain for all three classes:
+> 아래 그림은 세 클래스 모두에 대한 전체 이니셜라이저 체인을 보여줍니다.
+
+그리 추가
+
+You can use all three of the inherited initializers to create a new ShoppingListItem instance:
+> 상속 된 세 가지 이니셜라이저를 모두 사용하여 새 ShoppingListItem 인스턴스를 만들 수 있습니다.
+
+```swift
+var breakfastList = [
+    ShoppingListItem(),
+    ShoppingListItem(name: "Bacon"),
+    ShoppingListItem(name: "Eggs", quantity: 6),
+]
+breakfastList[0].name = "Orange juice"
+breakfastList[0].purchased = true
+for item in breakfastList {
+    print(item.description)
+}
+// 1 x Orange juice ✔
+// 1 x Bacon ✘
+// 6 x Eggs ✘
+``` 
+
+## Failable Initializers
+
+It’s sometimes useful to define a class, structure, or enumeration for which initialization can fail. This failure might be triggered by invalid initialization parameter values, the absence of a required external resource, or some other condition that prevents initialization from succeeding.
+> 초기화가 실패 할 수있는 클래스, 구조체 또는 열거형을 정의하는 것이 유용한 경우가 있습니다. 이 실패는 유효하지 않은 초기화 매개 변수 값, 필수 외부 자원의 부재 또는 초기화 성공을 방해하는 기타 조건에 의해 트리거 될 수 있습니다.
+
+To cope with initialization conditions that can fail, define one or more failable initializers as part of a class, structure, or enumeration definition. You write a failable initializer by placing a question mark after the init keyword (init?).
+> 실패 할 수있는 초기화 조건에 대처하려면 하나 이상의 실패 가능한 이니셜라이저를 클래스, 구조체 또는 열거형 정의의 일부로 정의하세요. init 키워드 뒤에 물음표를 두어 실패 할 수있는 이니셜 라이저를 작성합니다.
+
+A failable initializer creates an optional value of the type it initializes. You write return nil within a failable initializer to indicate a point at which initialization failure can be triggered.
+> failable initializer는 초기화하는 타입의 optional 값을 생성합니다. failable initializer 내에서 return nil을 작성하여 초기화 실패가 트리거 될 수있는 지점을 나타냅니다.
+
+For instance, failable initializers are implemented for numeric type conversions. To ensure conversion between numeric types maintains the value exactly, use the init(exactly:) initializer. If the type conversion can’t maintain the value, the initializer fails.
+> 예를 들어, failable initializer는 숫자 타입 변환을 위해 구현됩니다. 숫자 타입 간의 변환이 값을 정확하게 유지하도록하려면 init(exactly :) 이니셜 라이저를 사용하십시오. 타입 변환이 값을 유지할 수 없으면 이니셜라이저가 실패합니다.
+
+```swift
+let wholeNumber: Double = 12345.0
+let pi = 3.14159
+
+if let valueMaintained = Int(exactly: wholeNumber) {
+    print("\(wholeNumber) conversion to Int maintains value of \(valueMaintained)")
+}
+// Prints "12345.0 conversion to Int maintains value of 12345"
+
+let valueChanged = Int(exactly: pi)
+// valueChanged is of type Int?, not Int
+
+if valueChanged == nil {
+    print("\(pi) conversion to Int doesn't maintain value")
+}
+// Prints "3.14159 conversion to Int doesn't maintain value"
+``` 
+
+사용 예
+
+```swift
+struct Animal {
+    let species: String
+    init?(species: String) {
+        if species.isEmpty { return nil }
+        self.species = species
+    }
+}
+
+let someCreature = Animal(species: "Giraffe")
+// someCreature is of type Animal?, not Animal
+
+if let giraffe = someCreature {
+    print("An animal was initialized with a species of \(giraffe.species)")
+}
+// Prints "An animal was initialized with a species of Giraffe"
+
+
+let anonymousCreature = Animal(species: "")
+// anonymousCreature is of type Animal?, not Animal
+
+if anonymousCreature == nil {
+    print("The anonymous creature couldn't be initialized")
+}
+// Prints "The anonymous creature couldn't be initialized"
+``` 
