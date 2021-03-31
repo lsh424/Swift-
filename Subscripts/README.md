@@ -53,10 +53,10 @@ The example above defines a variable called numberOfLegs and initializes it with
 ## Subscript Options
 
 Subscripts can take any number of input parameters, and these input parameters can be of any type. Subscripts can also return a value of any type.
-> Subscript는 여러 입력 매개 변수를 사용할 수 있으며 이러한 입력 매개 변수는 모든 타입이 될 수 있습니다. 아래 첨자는 모든 타입의 값을 반환 할 수도 있습니다.
+> Subscript는 여러 입력 매개 변수를 사용할 수 있으며 이러한 입력 매개 변수는 모든 타입이 될 수 있습니다. subscripts는 모든 타입의 값을 반환 할 수도 있습니다.
 
 Like functions, subscripts can take a varying number of parameters and provide default values for their parameters, as discussed in Variadic Parameters and Default Parameter Values. However, unlike functions, subscripts can’t use in-out parameters.
-> 함수와 마찬가지로 subscript는 가변 매개 변수 및 기본 매개 변수 값에 설명 된대로 다양한 수의 매개 변수를 사용하고 매개 변수에 대한 기본값을 제공 할 수 있습니다. 그러나 함수와 달리 아래 첨자는 in-out 매개 변수를 사용할 수 없습니다.
+> 함수와 마찬가지로 subscript는 가변 매개 변수 및 기본 매개 변수 값에 설명 된대로 다양한 수의 매개 변수를 사용하고 매개 변수에 대한 기본값을 제공 할 수 있습니다. 그러나 함수와 달리 subscripts는 in-out 매개 변수를 사용할 수 없습니다.
 
 While it’s most common for a subscript to take a single parameter, you can also define a subscript with multiple parameters if it’s appropriate for your type. The following example defines a Matrix structure, which represents a two-dimensional matrix of Double values. The Matrix structure’s subscript takes two integer parameters:
 > subscript가 단일 매개 변수를 사용하는 것이 가장 일반적이지만 타입에 적합한 경우 여러 매개 변수로 subscript를 정의 할 수도 있습니다. 다음 예제에서는 Double 값의 2차원 행렬을 나타내는 Matrix 구조체를 정의합니다. Matrix 구조체의 subscript는 두 개의 정수 매개 변수를 사용합니다.
@@ -87,7 +87,7 @@ struct Matrix {
 ``` 
 
 Matrix provides an initializer that takes two parameters called rows and columns, and creates an array that’s large enough to store rows * columns values of type Double. Each position in the matrix is given an initial value of 0.0. To achieve this, the array’s size, and an initial cell value of 0.0, are passed to an array initializer that creates and initializes a new array of the correct size. This initializer is described in more detail in Creating an Array with a Default Value.
-> Matrix는 행과 열이라는 두 개의 매개 변수를 사용하는 이니셜 라이저를 제공하고 Double 타입의 행 * 열 값을 저장할 수있을만큼 큰 배열을 만듭니다. 행렬의 각 위치에는 초기 값 0.0이 지정됩니다. 이를 위해 배열의 크기와 초기 셀 값 0.0이 올바른 크기의 새 배열을 만들고 초기화하는 배열 이니셜 라이저에 전달됩니다. 이 이니셜 라이저는 기본값으로 배열 만들기에 자세히 설명되어 있습니다.
+> Matrix는 행과 열이라는 두 개의 매개 변수를 사용하는 이니셜 라이저를 제공하고 Double 타입의 행 * 열 값을 저장할 수있을만큼 큰 배열을 만듭니다. 행렬의 각 위치에는 초기 값 0.0이 지정됩니다. 이를 위해 배열의 크기와 초기 셀 값 0.0이 올바른 크기의 새 배열을 만들고 초기화하는 배열 이니셜 라이저에 전달됩니다. 이 이니셜라이저는 기본값으로 배열 만들기에 자세히 설명되어 있습니다.
 
 ## Type Subscripts
 Instance subscripts, as described above, are subscripts that you call on an instance of a particular type. You can also define subscripts that are called on the type itself. This kind of subscript is called a type subscript. You indicate a type subscript by writing the static keyword before the subscript keyword. Classes can use the class keyword instead, to allow subclasses to override the superclass’s implementation of that subscript. The example below shows how you define and call a type subscript:
