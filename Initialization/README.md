@@ -296,7 +296,7 @@ A convenience initializer must ultimately call a designated initializer.
 * 지정 이니셜라이저는 항상 위로 위임
 * 편의 이니셜라이저는 항상 가로질러 위임
 
-그림 추가 
+<img src="image1.png" width="400">
 
 Here, the superclass has a single designated initializer and two convenience initializers. One convenience initializer calls another convenience initializer, which in turn calls the single designated initializer. This satisfies rules 2 and 3 from above. The superclass doesn’t itself have a further superclass, and so rule 1 doesn’t apply.
 > 여기에서 superclass에는 designated initializer 하나와 convenience initializer 두 개가 있습니다. 하나의 convenience initializer저는 다른 convenience initializer를 호출하고, 이는 차례로 designated initializer를 호출합니다. 이는 위의 규칙 2 및 3을 충족합니다. superclass 자체에는 추가적인 superclass가 없으므로 규칙 1이 적용되지 않습니다.
@@ -307,7 +307,7 @@ The subclass in this figure has two designated initializers and one convenience 
 The figure below shows a more complex class hierarchy for four classes. It illustrates how the designated initializers in this hierarchy act as “funnel” points for class initialization, simplifying the interrelationships among classes in the chain:
 > 아래 그림은 4 개의 클래스에 대해 보다 더 복잡한 클래스 계층 구조를 보여줍니다. 이 계층 구조에서 designated initializer가 클래스 초기화를위한 "깔때기"지점으로 작동하여 체인에있는 클래스 간의 상호 관계를 단순화하는 방법을 보여줍니다.
 
-그림 추가 
+<img src="image2.png" width="400">
 
 
 ## Initializer Inheritance and Overriding
@@ -445,7 +445,7 @@ class Food {
 The figure below shows the initializer chain for the Food class:
 > 아래 그림은 Food 클래스의 이니셜라이저 체인을 보여줍니다.
 
-그림 추가
+<img src="image3.png" width="400">
 
 ```swift
 let namedMeat = Food(name: "Bacon")
@@ -474,7 +474,7 @@ class RecipeIngredient: Food {
 The figure below shows the initializer chain for the RecipeIngredient class:
 > 아래 그림은 RecipeIngredient 클래스의 이니셜 라이저 체인을 보여줍니다.
 
-그림 추가
+<img src="image4.png" width="400">
 
 The RecipeIngredient class has a single designated initializer, init(name: String, quantity: Int), which can be used to populate all of the properties of a new RecipeIngredient instance. This initializer starts by assigning the passed quantity argument to the quantity property, which is the only new property introduced by RecipeIngredient. After doing so, the initializer delegates up to the init(name: String) initializer of the Food class. This process satisfies safety check 1 from Two-Phase Initialization above.
 > RecipeIngredient 클래스에는 새로운 RecipeIngredient 인스턴스의 모든 프로퍼티를 채우는 데 사용할 수있는 init(name : String, quantity : Int)라는 designated initializer가 있습니다. 이 이니셜라이저는 전달 된 수량 인수를 수량 프로퍼티에 할당하여 시작합니다.이 속성은 RecipeIngredient에 의해 도입 된 유일한 새 프로퍼티입니다. 이렇게하면 초기화 프로그램은 Food 클래스의 init(name : String) 초기화 프로그램까지 위임합니다. 이 프로세스는 위의 Two-Phase Initialization의 안전 점검 1을 충족합니다.
@@ -523,7 +523,7 @@ Because it provides a default value for all of the properties it introduces and 
 The figure below shows the overall initializer chain for all three classes:
 > 아래 그림은 세 클래스 모두에 대한 전체 이니셜라이저 체인을 보여줍니다.
 
-그리 추가
+<img src="image5.png" width="400">
 
 You can use all three of the inherited initializers to create a new ShoppingListItem instance:
 > 상속 된 세 가지 이니셜라이저를 모두 사용하여 새 ShoppingListItem 인스턴스를 만들 수 있습니다.
